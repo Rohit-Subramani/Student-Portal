@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>My profile | Student Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container container-form">
+    <h1 id="pageTitle">My profile</h1>
+    <p class="lead">
+        Review your account details and keep your name, department, phone number, address and
+        preferences up to date. Changes are stored in the H2 database and reloaded from it.
+    </p>
+
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <div class="profile-layout">
+
+        <!-- Account details, read back from the database on every page load. -->
+        <section class="card">
+            <h2>Account summary</h2>
+            <div class="summary-identity">
+                <span class="summary-avatar" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                        <path fill="currentColor"
+                              d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4 0-8 2-8 4.6V21h16v-2.4C20 16 16 14 12 14Z"/>
+                    </svg>
+                </span>
+                <span class="summary-identity-text">
+                    <span class="summary-name" id="profileName" th:text="${signedInUser}">Student</span>
+                    <span class="muted">Student account</span>
+                </span>
+            </div>
+            <dl class="details">
+                <dt>Email</dt>
+                <dd><span id="profileEmail" th:text="${profileEmail}">student@college.edu</span></dd>
+                <dt>Phone number</dt>
+                <dd><span id="profilePhone" th:text="${profilePhone}">-</span></dd>
+                <dt>Address</dt>
+                <dd><span id="profileAddress" th:text="${profileAddress}">-</span></dd>
+                <dt>Gender</dt>
+                <dd><span id="profileGender" th:text="${profileGender}">-</span></dd>
+                <dt>Date of birth</dt>
+                <dd><span id="profileDateOfBirth" th:text="${profileDateOfBirth}">-</span></dd>
+            </dl>
+        </section>
+
+        <form id="profileForm" method="post" th:action="@{/profile}" novalidate>
+            <h2>Edit your details</h2>
+            <p class="section-note">The email address is the account identifier and cannot be changed here.</p>
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="fullName">Full name</label>
+                    <input type="text" id="fullName" name="name"
+                           aria-describedby="fullNameError"
+                           th:attr="aria-invalid=${fieldErrors['name'] != null ? 'true' : null}"
+                           th:value="${profileForm.name}"/>
+                    <span class="field-error" id="fullNameError" th:text="${fieldErrors['name']}"></span>
+                </div>
+
+                <div class="field">
+                    <label for="department">Department</label>
+                    <select id="department" name="department"
+                            aria-describedby="departmentError"
+                            th:attr="aria-invalid=${fieldErrors['department'] != null ? 'true' : null}">
+                        <option value="">-- Select a department --</option>
+                        <option th:each="dept : ${departments}" th:value="${dept}" th:text="${dept}"
+                                th:selected="${profileForm.department == dept}"></option>
+                    </select>
+                    <span class="field-error" id="departmentError" th:text="${fieldErrors['department']}"></span>
+                </div>
+
+                <div class="field">
+                    <label for="phoneNumber">Phone number</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" inputmode="numeric"
+                           aria-describedby="phoneNumberHint phoneNumberError"
+                           th:attr="aria-invalid=${fieldErrors['phoneNumber'] != null ? 'true' : null}"
+                           th:value="${profileForm.phoneNumber}"/>
+                    <span class="hint" id="phoneNumberHint">Exactly 10 digits, digits only.</span>
+                    <span class="field-error" id="phoneNumberError" th:text="${fieldErrors['phoneNumber']}"></span>
+                </div>
+
+                <div class="field">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" maxlength="200"
+                           aria-describedby="addressError"
+                           th:attr="aria-invalid=${fieldErrors['address'] != null ? 'true' : null}"
+                           th:value="${profileForm.address}"/>
+                    <span class="field-error" id="addressError" th:text="${fieldErrors['address']}"></span>
+                </div>
+
+                <div class="field field-wide">
+                    <span class="label" id="interestsLabel">Preferences (interests)</span>
+                    <div class="option-row" id="interestsGroup" role="group" aria-labelledby="interestsLabel"
+                         aria-describedby="interestsError"
+                         th:attr="aria-invalid=${fieldErrors['interests'] != null ? 'true' : null}">
+                        <label th:each="interest : ${interestOptions}" class="option"
+                               th:for="|interest-${#strings.toLowerCase(interest)}|">
+                            <input type="checkbox" name="interests" th:value="${interest}"
+                                   th:id="|interest-${#strings.toLowerCase(interest)}|"
+                                   th:checked="${profileForm.interests != null and profileForm.interests.contains(interest)}"/>
+                            <span th:text="${interest}">Interest</span>
+                        </label>
+                    </div>
+                    <span class="field-error" id="interestsError" th:text="${fieldErrors['interests']}"></span>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button type="submit" id="saveProfileButton">Save changes</button>
+                <a th:href="@{/logout}" id="logoutFromProfile">Sign out</a>
+            </div>
+        </form>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Login | Student Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container container-form">
+    <h1 id="pageTitle">Sign in</h1>
+    <p class="lead">Use the email address and the password you registered with.</p>
+
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <div class="split">
+
+        <form id="loginForm" class="form-narrow" method="post" th:action="@{/login}" novalidate>
+
+            <div class="field">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="student@college.edu"
+                       autocomplete="email"
+                       aria-describedby="emailError"
+                       th:attr="aria-invalid=${fieldErrors['email'] != null ? 'true' : null}"
+                       th:value="${registeredEmail != null and #strings.isEmpty(loginForm.email) ? registeredEmail : loginForm.email}"/>
+                <span class="field-error" id="emailError" th:text="${fieldErrors['email']}"></span>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" name="password" autocomplete="current-password"
+                           aria-describedby="passwordError"
+                           th:attr="aria-invalid=${fieldErrors['password'] != null ? 'true' : null}"/>
+                    <span th:replace="~{fragments/layout :: passwordToggle('password')}"></span>
+                </div>
+                <span class="field-error" id="passwordError" th:text="${fieldErrors['password']}"></span>
+            </div>
+
+            <div class="actions">
+                <button type="submit" id="loginButton">Sign in</button>
+                <a th:href="@{/register}" id="goToRegisterFromLogin">Create an account</a>
+                <a th:href="@{/reset-password}" id="goToResetFromLogin">Forgot your password?</a>
+            </div>
+        </form>
+
+        <!-- Supporting information only: no additional application feature is introduced here. -->
+        <aside class="card info-panel" aria-labelledby="studentServicesTitle">
+            <h2 id="studentServicesTitle">Student services</h2>
+            <p class="section-note">Your college account covers the following, all from this portal.</p>
+            <ul class="service-list">
+                <li>Open your account with your name, email, phone number, address, department, gender,
+                    interests and date of birth.</li>
+                <li>Review your account details at any time on your profile page.</li>
+                <li>Update your name, department, phone number, address and preferences; the change is
+                    stored in the database straight away.</li>
+                <li>Recover access with a local demonstration reset token if you forget your password.</li>
+            </ul>
+            <p class="muted">Sign in details are checked on the server. Passwords are stored only as
+                salted PBKDF2 hashes.</p>
+        </aside>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<script th:src="@{/js/password-toggle.js}"></script>
+</body>
+</html>

@@ -1,0 +1,1389 @@
+/* ==========================================================================
+   Student Portal - shared stylesheet.
+
+   Academic Palette: forest green, deep forest, warm ivory, cream-white,
+   and muted terracotta accents.
+   No external CSS framework and no web fonts are used: everything below is
+   plain CSS served from the application itself.
+   ========================================================================== */
+
+:root {
+    /* neutrals */
+    --ink: #26352D;
+    --muted: #657168;
+    --page: #F7F3EA;
+    --surface: #FFFEFA;
+    --line: #DDDCD2;
+    --line-strong: #C8C6B9;
+
+    /* academic forest green brand */
+    --forest-900: #173628;
+    --forest-800: #204735;
+    --forest-700: #285943;
+    --brand: #285943;
+    --brand-dark: #204735;
+    --brand-darker: #173628;
+    --accent: #C47B55;
+    --accent-hover: #B06A45;
+    --accent-soft: #F5EAE4;
+    --accent-line: #E2C2B1;
+    --forest-soft: #EBF2EE;
+    --forest-line: #B8D0C3;
+
+    /* typography on dark green surfaces */
+    --text-on-dark: #FFFDF7;
+    --text-on-dark-muted: #D5E2DA;
+
+    /* feedback */
+    --success-bg: #EAF5EE;
+    --success-ink: #1B5036;
+    --success-line: #9ECBAA;
+    --error-bg: #FAF0EB;
+    --error-ink: #9E3E28;
+    --error-line: #E5B2A6;
+    --info-bg: #F4EFEB;
+    --info-line: #D9C8BE;
+
+    /* shape */
+    --radius: 8px;
+    --radius-sm: 6px;
+    --shadow-sm: 0 1px 3px rgba(32, 71, 53, 0.05);
+    --shadow-md: 0 6px 18px rgba(32, 71, 53, 0.08);
+
+    /* width: the page shell uses the available desktop width (93vw, capped) and a
+       consistent side padding; form led pages cap the shell further because a form
+       must not be stretched across a very wide screen. */
+    --shell-max: 1720px;
+    --page-max: 1240px;
+    --gutter: clamp(16px, 2vw, 32px);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--page);
+    line-height: 1.55;
+}
+
+/* ---------------- header / navigation ---------------- */
+
+.app-header {
+    background: #285943;
+    border-bottom: 1px solid rgba(255, 253, 247, 0.15);
+    box-shadow: 0 2px 10px rgba(32, 71, 53, 0.15);
+    padding: 12px var(--gutter);
+}
+
+/* "Welcome, Students!" on the left, centered brand, and polished navigation actions on the right.
+   Balanced grid structure keeps the center brand steady while links and greetings have dedicated space. */
+.header-inner {
+    width: min(93vw, var(--shell-max));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px 24px;
+}
+
+.header-welcome-wrap {
+    justify-self: start;
+}
+
+.header-welcome {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #D5E2DA;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 5px 12px;
+    background: rgba(255, 253, 247, 0.08);
+    border: 1px solid rgba(255, 253, 247, 0.15);
+    border-radius: 20px;
+}
+
+.header-welcome-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #C47B55;
+    box-shadow: 0 0 6px rgba(196, 123, 85, 0.5);
+}
+
+.brand {
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.brand-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    transition: opacity 0.15s ease;
+}
+
+.brand-link:hover,
+.brand-link:focus-visible {
+    opacity: 0.92;
+}
+
+.brand-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #FFFDF7;
+}
+
+.brand-subtitle {
+    margin-top: 2px;
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    color: #D5E2DA;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.main-nav {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.nav-link {
+    color: #FFFDF7;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.92rem;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+    color: #FFFDF7;
+    background-color: rgba(255, 253, 247, 0.12);
+}
+
+.nav-link:focus-visible {
+    outline: 2px solid #C47B55;
+    outline-offset: 2px;
+}
+
+.nav-btn-primary {
+    background: #204735;
+    color: #FFFDF7 !important;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 7px 18px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    border: 1px solid rgba(255, 253, 247, 0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.nav-btn-primary:hover,
+.nav-btn-primary:focus-visible {
+    background: #173628;
+    color: #FFFDF7 !important;
+    transform: translateY(-1px);
+}
+
+.nav-btn-outline {
+    background: rgba(255, 253, 247, 0.08);
+    color: #FFFDF7 !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    border: 1px solid rgba(255, 253, 247, 0.2);
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-btn-outline:hover,
+.nav-btn-outline:focus-visible {
+    background: rgba(255, 253, 247, 0.16);
+    color: #FFFDF7 !important;
+}
+
+.session-block {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px 14px;
+    padding-left: 16px;
+    border-left: 1px solid rgba(255, 253, 247, 0.2);
+}
+
+.session-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.session-label {
+    color: #D5E2DA;
+    font-size: 0.85rem;
+}
+
+.session-user {
+    font-weight: 600;
+    color: #FFFDF7;
+    font-size: 0.92rem;
+}
+
+/* ---------------- layout ---------------- */
+
+/* The page shell: the content uses the available desktop width, stays centred and keeps
+   the same side padding on every page. */
+.container {
+    width: min(93vw, var(--shell-max));
+    max-width: 100%;
+    margin: 32px auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex: 1 0 auto;
+}
+
+/* Pages built around forms use a narrower shell so that fields are not stretched across
+   the whole screen; the layout inside the page stays page specific. */
+.container-form {
+    max-width: min(93vw, var(--page-max));
+}
+
+/* Two balanced blocks side by side on desktop (sign in, password reset), stacked below. */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+}
+
+/* Account details beside the editing form. */
+.profile-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+}
+
+h1 {
+    font-size: 1.85rem;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--forest-800);
+    letter-spacing: -0.01em;
+}
+
+h2 {
+    font-size: 1.12rem;
+    margin: 0 0 10px;
+    color: var(--brand);
+}
+
+.lead {
+    color: var(--muted);
+    margin: 0;
+    max-width: 72ch;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* ---------------- home page: hero ---------------- */
+
+.hero-welcome {
+    background: linear-gradient(135deg, #28513E 0%, #1e4031 100%);
+    border: 1px solid #2d6148;
+    border-radius: var(--radius);
+    padding: 42px 44px;
+    box-shadow: 0 6px 24px rgba(32, 71, 53, 0.14);
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    align-items: center;
+    gap: 36px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    z-index: 1;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: #D5E2DA;
+}
+
+.hero-tag-badge {
+    background: rgba(196, 123, 85, 0.25);
+    color: #FFFDF7;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    border: 1px solid rgba(196, 123, 85, 0.45);
+}
+
+.hero-tag-text {
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.hero-heading {
+    font-size: 2.15rem;
+    line-height: 1.22;
+    margin: 0;
+    color: #FFFDF7;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.hero-lead {
+    color: #E2ECE5;
+    font-size: 1.04rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 60ch;
+}
+
+.hero-cta-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 6px;
+}
+
+.btn-hero-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #C47B55;
+    color: #FFFDF7 !important;
+    padding: 11px 24px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.98rem;
+    text-decoration: none;
+    border: 1px solid #B06A45;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-hero-primary:hover,
+.btn-hero-primary:focus-visible {
+    background: #B06A45;
+    color: #FFFDF7 !important;
+    transform: translateY(-1px);
+}
+
+.btn-hero-primary .btn-arrow {
+    transition: transform 0.15s ease;
+}
+
+.btn-hero-primary:hover .btn-arrow {
+    transform: translateX(3px);
+}
+
+.btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 253, 247, 0.08);
+    color: #FFFDF7 !important;
+    padding: 11px 22px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.98rem;
+    text-decoration: none;
+    border: 1px solid rgba(255, 253, 247, 0.25);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-hero-secondary:hover,
+.btn-hero-secondary:focus-visible {
+    background: rgba(255, 253, 247, 0.16);
+    color: #FFFDF7 !important;
+    border-color: rgba(255, 253, 247, 0.45);
+}
+
+.hero-trust-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 253, 247, 0.15);
+    font-size: 0.82rem;
+    color: #D5E2DA;
+}
+
+.trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trust-sep {
+    color: rgba(255, 253, 247, 0.3);
+}
+
+/* ---------------- home page: crest illustration ---------------- */
+
+.hero-graphic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.crest-card {
+    background: rgba(255, 253, 247, 0.05);
+    border: 1px solid rgba(255, 253, 247, 0.15);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255, 253, 247, 0.1);
+    backdrop-filter: blur(4px);
+    width: 100%;
+    max-width: 280px;
+}
+
+.crest-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 253, 247, 0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 253, 247, 0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
+    border-radius: var(--radius);
+    pointer-events: none;
+}
+
+.crest-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.crest-svg {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.crest-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.crest-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #FFFDF7;
+}
+
+.crest-meta {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #D5E2DA;
+    margin-top: 2px;
+}
+
+/* ---------------- home page: services section ---------------- */
+
+.services-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 6px;
+}
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.section-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.section-lead {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 24px 22px;
+    box-shadow: 0 1px 3px rgba(32, 71, 53, 0.03);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    height: 100%;
+}
+
+.action-card:hover,
+.action-card:focus-within {
+    border-color: var(--forest-line);
+    box-shadow: 0 8px 24px rgba(32, 71, 53, 0.07);
+    transform: translateY(-2px);
+}
+
+.action-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    background: var(--forest-soft);
+    color: var(--brand);
+    border: 1px solid var(--forest-line);
+}
+
+.action-step-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: var(--page);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+}
+
+.action-card h2 {
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin: 0 0 8px;
+    font-weight: 600;
+}
+
+.action-card p {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    flex-grow: 1;
+}
+
+.action-card .card-action {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--page);
+    color: var(--brand);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    padding: 9px 16px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.action-card .card-action .link-arrow {
+    transition: transform 0.15s ease;
+    font-weight: 400;
+}
+
+.action-card .card-action:hover,
+.action-card .card-action:focus-visible {
+    background: var(--brand);
+    color: #FFFDF7;
+    border-color: var(--brand);
+}
+
+.action-card:hover .card-action {
+    border-color: var(--brand);
+}
+
+.action-card .card-action:hover .link-arrow,
+.action-card .card-action:focus-visible .link-arrow {
+    transform: translateX(4px);
+}
+
+.button-link {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--brand);
+    color: #FFFDF7;
+    border: 1px solid var(--brand);
+    border-radius: var(--radius-sm);
+    padding: 9px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.button-link:hover,
+.button-link:focus-visible {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    color: #FFFDF7;
+}
+
+/* ---------------- home page: features ---------------- */
+
+.portal-features {
+    padding: 30px 32px;
+}
+
+.portal-features .section-header {
+    margin-bottom: 20px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.feature {
+    padding-left: 16px;
+    border-left: 3px solid var(--brand);
+}
+
+.feature h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.feature p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+/* ---------------- cards ---------------- */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.card > :last-child {
+    margin-bottom: 0;
+}
+
+.link-list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.link-list a {
+    color: var(--brand);
+}
+
+.link-list a:hover,
+.link-list a:focus-visible {
+    color: var(--brand-dark);
+}
+
+/* Supporting information panel shown beside the sign in form. */
+.service-list {
+    margin: 0 0 14px;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.service-list li {
+    margin-bottom: 8px;
+}
+
+.service-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------------- forms ---------------- */
+
+form {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* A card must not create a form inside a form-like frame: the reset page and the
+   profile page place plain forms inside cards, so nested frames are flattened. */
+.card form {
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+/* Short forms (sign in) read better when they do not stretch across the page. */
+.form-narrow {
+    max-width: 560px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px 26px;
+}
+
+.field {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.form-grid .field {
+    margin-bottom: 0;
+}
+
+.field label,
+.field .label {
+    font-weight: 600;
+    font-size: 0.93rem;
+    color: var(--ink);
+}
+
+.field .label {
+    display: block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+    width: 100%;
+    max-width: 420px;
+    padding: 9px 11px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-size: 0.97rem;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--surface);
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid var(--brand);
+    outline-offset: 1px;
+    border-color: var(--brand);
+}
+
+/* Inside a two column grid the controls fill their own column so both columns line up. */
+.form-grid input[type="text"],
+.form-grid input[type="email"],
+.form-grid input[type="password"],
+.form-grid input[type="date"],
+.form-grid select,
+.form-grid .password-field {
+    max-width: none;
+}
+
+/* invalid fields: a clear red border plus a matching focus ring */
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+    border-color: var(--error-line);
+    background: #FAF0EB;
+}
+
+input[aria-invalid="true"]:focus,
+select[aria-invalid="true"]:focus {
+    outline-color: var(--error-ink);
+    border-color: var(--error-ink);
+}
+
+.option-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+
+.option {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.94rem;
+    font-weight: 500;
+    padding: 4px 0;
+    cursor: pointer;
+}
+
+.option input {
+    width: auto;
+    margin: 0;
+    accent-color: var(--brand);
+}
+
+.option:hover {
+    color: var(--brand);
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+.field-error {
+    display: block;
+    color: var(--error-ink);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+/* ---------------- password visibility toggle ---------------- */
+
+.password-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* The toggle is injected as a fragment wrapper: keep only the button in the flow. */
+.password-toggle-wrapper {
+    display: contents;
+}
+
+.password-field input {
+    width: 100%;
+    max-width: none;
+    padding-right: 46px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    background: var(--forest-soft);
+    color: var(--brand);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 1px;
+}
+
+.password-toggle .icon-eye-off {
+    display: none;
+}
+
+.password-field.is-visible .icon-eye {
+    display: none;
+}
+
+.password-field.is-visible .icon-eye-off {
+    display: inline;
+}
+
+/* ---------------- actions / buttons ---------------- */
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px 20px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+button {
+    background: var(--brand);
+    color: #FFFDF7;
+    border: 1px solid var(--brand);
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-size: 0.97rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.actions a {
+    color: var(--brand);
+    font-size: 0.93rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.actions a:hover,
+.actions a:focus-visible {
+    color: var(--brand-dark);
+    text-decoration: underline;
+}
+
+/* the primary save/create button of a form */
+.actions button[type="submit"] {
+    padding: 11px 24px;
+}
+
+/* ---------------- messages ---------------- */
+
+.alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alert {
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    border: 1px solid transparent;
+    font-size: 0.93rem;
+}
+
+.alert-success {
+    background: var(--success-bg);
+    border-color: var(--success-line);
+    color: var(--success-ink);
+}
+
+.alert-error {
+    background: var(--error-bg);
+    border-color: var(--error-line);
+    color: var(--error-ink);
+}
+
+.alert-info {
+    background: var(--info-bg);
+    border-color: var(--info-line);
+    color: var(--ink);
+}
+
+.error-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alert-summary-title {
+    margin: 0 0 6px;
+    font-weight: 700;
+    font-size: 0.93rem;
+}
+
+/* Locally generated demo reset token, shown inside step 1. */
+.demo-token {
+    margin-top: 18px;
+}
+
+.demo-token h3 {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+}
+
+.demo-token p {
+    margin: 0 0 6px;
+}
+
+.demo-token p:last-child {
+    margin-bottom: 0;
+}
+
+#demoResetToken {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+}
+
+/* ---------------- account summary / details ---------------- */
+
+.details {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 8px 16px;
+    margin: 0;
+    font-size: 0.94rem;
+}
+
+.details dt {
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.details dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.summary-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.summary-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #FFFDF7;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.summary-identity-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.summary-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+}
+
+.section-note {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+/* ---------------- footer ---------------- */
+
+.app-footer {
+    margin-top: 44px;
+    padding: 26px 24px;
+    background: #204735;
+    color: #D5E2DA;
+    text-align: center;
+    font-size: 0.85rem;
+    flex: 0 0 auto;
+    border-top: 1px solid rgba(255, 253, 247, 0.1);
+}
+
+.app-footer p {
+    margin: 4px 0;
+}
+
+.app-footer .muted {
+    color: #A9BCB0;
+}
+
+/* ---------------- responsive ---------------- */
+
+@media (min-width: 760px) {
+    .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Fields that read better across the full width of the form. */
+    .field-wide {
+        grid-column: 1 / -1;
+    }
+
+    /* The supporting information stays balanced as an even two by two block. */
+    .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Sign in form beside the information panel, and reset step 1 beside reset step 2. */
+@media (min-width: 860px) {
+    .split {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Account details on the left, the editing form on the right. */
+@media (min-width: 1000px) {
+    .profile-layout {
+        grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+        gap: 26px;
+    }
+}
+
+/* Tablet & intermediate screens */
+@media (max-width: 960px) {
+    .hero-welcome {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 30px;
+        padding: 34px 28px;
+    }
+
+    .crest-card {
+        max-width: 240px;
+        margin: 0 auto;
+    }
+
+    .actions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Stacking navigation cleanly before links could crowd the centered brand */
+@media (max-width: 860px) {
+    .header-inner {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 4px 0;
+    }
+
+    .header-welcome-wrap,
+    .brand,
+    .main-nav {
+        justify-self: center;
+    }
+
+    .main-nav {
+        justify-content: center;
+        gap: 8px 14px;
+    }
+
+    .session-block {
+        justify-content: center;
+        padding-left: 0;
+        border-left: 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .container {
+        margin: 22px auto;
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 1.55rem;
+    }
+
+    .hero-heading {
+        font-size: 1.7rem;
+    }
+
+    .actions-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .feature-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .card,
+    form {
+        padding: 20px 18px;
+    }
+
+    .details {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2px 0;
+    }
+
+    .details dt {
+        margin-top: 8px;
+    }
+
+    .password-field,
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    select {
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-welcome {
+        padding: 26px 18px;
+    }
+
+    .hero-heading {
+        font-size: 1.45rem;
+    }
+
+    .hero-lead {
+        font-size: 0.94rem;
+    }
+
+    .hero-cta-group {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-trust-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .trust-sep {
+        display: none;
+    }
+
+    .brand-title {
+        font-size: 1.3rem;
+    }
+
+    .header-welcome {
+        font-size: 0.82rem;
+        padding: 4px 10px;
+    }
+
+    .main-nav {
+        gap: 6px 12px;
+    }
+
+    .nav-link {
+        font-size: 0.88rem;
+        padding: 4px 6px;
+    }
+
+    .nav-btn-primary {
+        font-size: 0.88rem;
+        padding: 6px 14px;
+    }
+
+    .session-block {
+        gap: 6px 10px;
+    }
+
+    .actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+
+    .summary-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}

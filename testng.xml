@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!--
+  Student Portal Selenium + TestNG suite.
+
+  One single suite, one single thread: the 20 CSV driven test cases are data dependent
+  (TC01 registers the account that TC02, TC13..TC20 rely on) so they must never run in
+  parallel and must keep the order TC01 .. TC20 from student_portal_testdata.csv.
+-->
+<suite name="StudentPortalSuite" verbose="2" parallel="none" thread-count="1">
+
+    <listeners>
+        <listener class-name="com.college.studentportal.tests.support.ResultReporter"/>
+    </listeners>
+
+    <test name="StudentPortalCsvDrivenTests" preserve-order="true">
+        <classes>
+            <class name="com.college.studentportal.tests.StudentPortalCsvTest"/>
+        </classes>
+    </test>
+
+</suite>

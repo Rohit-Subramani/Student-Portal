@@ -1,0 +1,41 @@
+# Maven
+target/
+
+# Build helpers
+mvnw
+mvnw.cmd
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+
+# Logs and temporary files
+*.log
+*.tmp
+hs_err_pid*
+replay_pid*
+
+# H2 database files (the in-memory database writes nothing, this is a safety net)
+*.mv.db
+*.trace.db
+
+# Driver binaries: Selenium Manager resolves ChromeDriver automatically
+chromedriver.exe
+chromedriver
+msedgedriver.exe
+geckodriver.exe
+*.selenium/
+.selenium/
+
+# OS noise
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  Shared navigation bar.
+
+  Desktop: "Welcome, Students!" on the left, prominent centered "Student Portal" brand,
+  and authentication actions on the right. When signed out, a primary button highlights Login
+  while Register and Reset password remain readily accessible. When signed in, the student
+  identity is displayed alongside Profile and Logout links.
+-->
+<header th:fragment="header" class="app-header">
+    <div class="header-inner">
+        <div class="header-welcome-wrap">
+            <span class="header-welcome">
+                <span class="header-welcome-dot" aria-hidden="true"></span>
+                Welcome, Students!
+            </span>
+        </div>
+        <div class="brand">
+            <a th:href="@{/}" id="homeLink" class="brand-link">
+                <span class="brand-title">Student Portal</span>
+                <span class="brand-subtitle">COLLEGE STUDENT SERVICES</span>
+            </a>
+        </div>
+        <nav class="main-nav" aria-label="Student Portal sections">
+            <th:block th:if="${!signedIn}">
+                <a th:href="@{/register}" id="navRegister" class="nav-link">Register</a>
+                <a th:href="@{/reset-password}" id="navResetPassword" class="nav-link">Reset password</a>
+                <a th:href="@{/login}" id="navLogin" class="nav-btn nav-btn-primary">Login</a>
+            </th:block>
+            <span th:if="${signedIn}" class="session-block">
+                <span class="session-info">
+                    <span class="session-label">Signed in as</span>
+                    <strong id="signedInUser" class="session-user" th:text="${signedInUser}">Student</strong>
+                </span>
+                <a th:href="@{/profile}" id="navProfile" class="nav-link">Profile</a>
+                <a th:href="@{/logout}" id="logoutLink" class="nav-btn nav-btn-outline">Logout</a>
+            </span>
+        </nav>
+    </div>
+</header>
+
+<!--
+  Success and error messages.
+
+  The banner keeps the stable ids the Selenium suite relies on: "#successMessage"
+  and "#errorMessage" with one ".error-item" per message. Field level messages are
+  also printed directly underneath their own control, so the banner now reads as a
+  summary of everything that was rejected in one submit.
+-->
+<div th:fragment="alerts" class="alerts">
+    <div id="successMessage" class="alert alert-success"
+         th:if="${successMessage != null}" th:text="${successMessage}"></div>
+    <div id="errorMessage" class="alert alert-error"
+         th:if="${errorMessages != null and !#lists.isEmpty(errorMessages)}">
+        <p class="alert-summary-title"
+           th:if="${fieldErrors != null and !fieldErrors.isEmpty()}">
+            Please review the highlighted fields below.
+        </p>
+        <ul class="error-list">
+            <li class="error-item" th:each="message : ${errorMessages}" th:text="${message}"></li>
+        </ul>
+    </div>
+</div>
+
+<!--
+  Eye / eye-off button used next to every password input.
+  "target" is the id of the password input it controls.
+-->
+<span th:fragment="passwordToggle(target)" class="password-toggle-wrapper">
+    <button type="button" class="password-toggle" th:attr="data-password-toggle=${target}"
+            aria-label="Show password" aria-pressed="false" title="Show password">
+        <svg class="icon-eye" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor"
+                  d="M12 5c-4.9 0-8.9 3.1-10 7 1.1 3.9 5.1 7 10 7s8.9-3.1 10-7c-1.1-3.9-5.1-7-10-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2.6a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z"/>
+        </svg>
+        <svg class="icon-eye-off" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor"
+                  d="M3.3 2.3 1.9 3.7l3 3C3.3 7.9 2.2 9.3 1.6 10.5c1.1 3.9 5.1 7 10.4 7 1.6 0 3.1-.3 4.4-.9l3.3 3.3 1.4-1.4L3.3 2.3ZM12 15.3c-3.4 0-6.4-2-7.6-4.8.5-1 1.4-2 2.5-2.7l1.7 1.7a3.7 3.7 0 0 0 5 5l1.6 1.6c-1 .3-2 .4-3.2.4Zm2.4-8.5c-.8-.2-1.6-.3-2.4-.3-5.3 0-9.3 3.1-10.4 7 .3 1.1.9 2.1 1.7 3l1.5-1.5c-.4-.4-.8-.9-1-1.5 1.2-2.8 4.2-4.8 7.6-4.8.6 0 1.1 0 1.6.1l1.4-1.4Zm6.9 3.7c-.4-1.4-1.2-2.7-2.3-3.7l-1.5 1.5c.8.6 1.5 1.4 1.9 2.2-1.2 2.8-4.2 4.8-7.6 4.8-.3 0-.7 0-1-.1l-1.6 1.6c.8.2 1.7.3 2.6.3 5.3 0 9.3-3.1 10.4-7 .1.1.1.1.1.1Z"/>
+        </svg>
+    </button>
+</span>
+
+<footer th:fragment="footer" class="app-footer">
+    <div class="footer-inner">
+        <p class="footer-title"><strong>Student Portal</strong> &bull; College Student Services</p>
+        <p class="footer-tech">Engineered with Spring Boot 3.4, Thymeleaf, H2 Database, and Selenium WebDriver.</p>
+        <p class="muted">Password reset is a local demonstration workflow &mdash; no external email is sent.</p>
+    </div>
+</footer>
+
+</body>
+</html>

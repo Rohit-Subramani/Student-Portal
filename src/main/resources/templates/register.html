@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Register | Student Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container container-form">
+    <h1 id="pageTitle">Student registration</h1>
+    <p class="lead">
+        Create your college account. Every field is validated on the server and any problem is
+        reported underneath the field it belongs to.
+    </p>
+
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <!-- novalidate keeps the browser from blocking the submit so that server side validation runs -->
+    <form id="registerForm" method="post" th:action="@{/register}" novalidate>
+
+        <div class="form-grid">
+
+            <!-- Personal details -->
+            <div class="field">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" placeholder="e.g. Arjun Mehta"
+                       autocomplete="name"
+                       aria-describedby="nameError"
+                       th:attr="aria-invalid=${fieldErrors['name'] != null ? 'true' : null}"
+                       th:value="${registrationForm.name}"/>
+                <span class="field-error" id="nameError" th:text="${fieldErrors['name']}"></span>
+            </div>
+
+            <div class="field">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="student@college.edu"
+                       autocomplete="email"
+                       aria-describedby="emailError"
+                       th:attr="aria-invalid=${fieldErrors['email'] != null ? 'true' : null}"
+                       th:value="${registrationForm.email}"/>
+                <span class="field-error" id="emailError" th:text="${fieldErrors['email']}"></span>
+            </div>
+
+            <div class="field">
+                <label for="phoneNumber">Phone number</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 9876543210"
+                       inputmode="numeric" autocomplete="tel"
+                       aria-describedby="phoneNumberHint phoneNumberError"
+                       th:attr="aria-invalid=${fieldErrors['phoneNumber'] != null ? 'true' : null}"
+                       th:value="${registrationForm.phoneNumber}"/>
+                <span class="hint" id="phoneNumberHint">Exactly 10 digits, digits only. No spaces, hyphens or country code.</span>
+                <span class="field-error" id="phoneNumberError" th:text="${fieldErrors['phoneNumber']}"></span>
+            </div>
+
+            <div class="field">
+                <label for="dateOfBirth">Date of birth</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth"
+                       aria-describedby="dateOfBirthError"
+                       th:attr="aria-invalid=${fieldErrors['dateOfBirth'] != null ? 'true' : null}"
+                       th:value="${registrationForm.dateOfBirth != null ? registrationForm.dateOfBirth : ''}"/>
+                <span class="field-error" id="dateOfBirthError" th:text="${fieldErrors['dateOfBirth']}"></span>
+            </div>
+
+            <div class="field field-wide">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" maxlength="200" autocomplete="street-address"
+                       placeholder="e.g. 24 College Road, Bengaluru 560001"
+                       aria-describedby="addressError"
+                       th:attr="aria-invalid=${fieldErrors['address'] != null ? 'true' : null}"
+                       th:value="${registrationForm.address}"/>
+                <span class="field-error" id="addressError" th:text="${fieldErrors['address']}"></span>
+            </div>
+
+            <!-- Course details -->
+            <div class="field">
+                <label for="department">Department</label>
+                <select id="department" name="department"
+                        aria-describedby="departmentError"
+                        th:attr="aria-invalid=${fieldErrors['department'] != null ? 'true' : null}">
+                    <option value="">-- Select a department --</option>
+                    <option th:each="dept : ${departments}" th:value="${dept}" th:text="${dept}"
+                            th:selected="${registrationForm.department == dept}"></option>
+                </select>
+                <span class="field-error" id="departmentError" th:text="${fieldErrors['department']}"></span>
+            </div>
+
+            <div class="field">
+                <span class="label" id="genderLabel">Gender</span>
+                <div class="option-row" role="group" aria-labelledby="genderLabel"
+                     aria-describedby="genderError"
+                     th:attr="aria-invalid=${fieldErrors['gender'] != null ? 'true' : null}">
+                    <label for="gender-male" class="option">
+                        <input type="radio" id="gender-male" name="gender" value="Male"
+                               th:checked="${registrationForm.gender == 'Male'}"/> Male
+                    </label>
+                    <label for="gender-female" class="option">
+                        <input type="radio" id="gender-female" name="gender" value="Female"
+                               th:checked="${registrationForm.gender == 'Female'}"/> Female
+                    </label>
+                    <label for="gender-other" class="option">
+                        <input type="radio" id="gender-other" name="gender" value="Other"
+                               th:checked="${registrationForm.gender == 'Other'}"/> Other
+                    </label>
+                </div>
+                <span class="field-error" id="genderError" th:text="${fieldErrors['gender']}"></span>
+            </div>
+
+            <div class="field field-wide">
+                <span class="label" id="interestsLabel">Interests</span>
+                <div class="option-row" id="interestsGroup" role="group" aria-labelledby="interestsLabel"
+                     aria-describedby="interestsError"
+                     th:attr="aria-invalid=${fieldErrors['interests'] != null ? 'true' : null}">
+                    <label th:each="interest : ${interestOptions}" class="option"
+                           th:for="|interest-${#strings.toLowerCase(interest)}|">
+                        <input type="checkbox" name="interests" th:value="${interest}"
+                               th:id="|interest-${#strings.toLowerCase(interest)}|"
+                               th:checked="${registrationForm.interests != null and registrationForm.interests.contains(interest)}"/>
+                        <span th:text="${interest}">Interest</span>
+                    </label>
+                </div>
+                <span class="field-error" id="interestsError" th:text="${fieldErrors['interests']}"></span>
+            </div>
+
+            <!-- Account credentials -->
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" name="password" autocomplete="new-password"
+                           aria-describedby="passwordHint passwordError"
+                           th:attr="aria-invalid=${fieldErrors['password'] != null ? 'true' : null}"/>
+                    <span th:replace="~{fragments/layout :: passwordToggle('password')}"></span>
+                </div>
+                <span class="hint" id="passwordHint">At least 8 characters with an uppercase letter, a lowercase letter, a digit and a special character.</span>
+                <span class="field-error" id="passwordError" th:text="${fieldErrors['password']}"></span>
+            </div>
+
+            <div class="field">
+                <label for="confirmPassword">Confirm password</label>
+                <div class="password-field">
+                    <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password"
+                           aria-describedby="confirmPasswordError"
+                           th:attr="aria-invalid=${fieldErrors['confirmPassword'] != null ? 'true' : null}"/>
+                    <span th:replace="~{fragments/layout :: passwordToggle('confirmPassword')}"></span>
+                </div>
+                <span class="field-error" id="confirmPasswordError" th:text="${fieldErrors['confirmPassword']}"></span>
+            </div>
+
+        </div>
+
+        <div class="actions">
+            <button type="submit" id="registerButton">Create account</button>
+            <a th:href="@{/login}" id="goToLoginFromRegister">Already registered? Sign in</a>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<script th:src="@{/js/password-toggle.js}"></script>
+</body>
+</html>
